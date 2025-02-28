@@ -3,7 +3,7 @@
 namespace Asantibanez\LivewireSelect;
 
 use Illuminate\Support\Collection;
-use Livewire\Component;
+use Livewire\Volt\Component;
 
 /**
  * Class LivewireSelect
@@ -26,7 +26,7 @@ use Livewire\Component;
  * @property string $searchSelectedOptionView
  * @property string $searchNoResultsView
  */
-class LivewireSelect extends Component
+class LivewireVoltSelect extends Component
 {
     public $name;
     public $placeholder;
@@ -53,24 +53,25 @@ class LivewireSelect extends Component
     public $searchSelectedOptionView;
     public $searchNoResultsView;
 
-    public function mount($name,
-                          $value = null,
-                          $placeholder = 'Select an option',
-                          $searchable = false,
-                          $dependsOn = [],
-                          $dependsOnValues = [],
-                          $waitForDependenciesToShow = false,
-                          $noResultsMessage = 'No options found',
-                          $selectView = 'livewire-select::select',
-                          $defaultView = 'livewire-select::default',
-                          $searchView = 'livewire-select::search',
-                          $searchInputView = 'livewire-select::search-input',
-                          $searchOptionsContainer = 'livewire-select::search-options-container',
-                          $searchOptionItem = 'livewire-select::search-option-item',
-                          $searchSelectedOptionView = 'livewire-select::search-selected-option',
-                          $searchNoResultsView = 'livewire-select::search-no-results',
-                          $extras = [])
-    {
+    public function mount(
+        $name,
+        $value = null,
+        $placeholder = 'Select an option',
+        $searchable = false,
+        $dependsOn = [],
+        $dependsOnValues = [],
+        $waitForDependenciesToShow = false,
+        $noResultsMessage = 'No options found',
+        $selectView = 'livewire-select::select',
+        $defaultView = 'livewire-select::default',
+        $searchView = 'livewire-select::search',
+        $searchInputView = 'livewire-select::search-input',
+        $searchOptionsContainer = 'livewire-select::search-options-container',
+        $searchOptionItem = 'livewire-select::search-option-item',
+        $searchSelectedOptionView = 'livewire-select::search-selected-option',
+        $searchNoResultsView = 'livewire-select::search-no-results',
+        $extras = []
+    ) {
         $this->name = $name;
         $this->placeholder = $placeholder;
 
@@ -112,7 +113,7 @@ class LivewireSelect extends Component
         //
     }
 
-    public function options($searchTerm = null) : Collection
+    public function options($searchTerm = null): Collection
     {
         return collect();
     }
@@ -222,7 +223,7 @@ class LivewireSelect extends Component
         ];
     }
 
-    public function render()
+    public function with()
     {
         if ($this->searchable) {
             if ($this->isSearching()) {
@@ -246,12 +247,11 @@ class LivewireSelect extends Component
 
         $styles = $this->styles();
 
-        return view($this->selectView)
-            ->with([
-                'options' => $options,
-                'selectedOption' => $selectedOption ?? null,
-                'shouldShow' => $shouldShow,
-                'styles' => $styles,
-            ]);
+        return [
+            'options' => $options,
+            'selectedOption' => $selectedOption ?? null,
+            'shouldShow' => $shouldShow,
+            'styles' => $styles,
+        ];
     }
 }
